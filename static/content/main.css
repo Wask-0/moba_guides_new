@@ -1,0 +1,326 @@
+﻿/* Базовые настройки */
+body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: sans-serif;
+}
+
+/* Навигация */
+.top-nav-fixed {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-btn {
+    background: linear-gradient(135deg, #252a3d, #1a1d29);
+    color: #e0e0e0 !important;
+    border: 2px solid #ff6b35;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none !important;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+    .nav-btn:hover {
+        transform: translateY(-3px);
+        border-color: #ff9f43;
+        color: #fff !important;
+    }
+
+    .nav-btn.secondary {
+        border-color: #4ecdc4;
+    }
+
+    .nav-btn.tertiary {
+        border-color: #54a0ff;
+    }
+
+/* Обертки страниц */
+.page-wrapper {
+    min-height: 100vh;
+    color: #e0e0e0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.bg-dota {
+    background-image: url('/static/images/fon.png');
+    background-color: #1a1d29;
+}
+
+.bg-deadlock {
+    background-image: url('/static/images/deadlock.png');
+    background-color: #1a1d29;
+}
+
+.bg-about {
+    background-color: #1a1d29;
+    padding: 60px 0;
+}
+
+/* Заголовки */
+.main-title {
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 15px;
+    font-size: 6rem;
+    text-align: center;
+}
+
+.dota-title-shift {
+    color: #ff0000;
+}
+
+.deadlock-title-color {
+    color: #00ffcc;
+}
+
+.about-title-style {
+    color: #ff6b35;
+    font-size: 4rem;
+    margin-bottom: 50px;
+}
+
+/* Полоски */
+.accent-line {
+    width: 100px;
+    height: 4px;
+    margin: 0 auto 20px auto;
+}
+
+.line-orange {
+    background: #ff6b35;
+}
+
+.line-cyan {
+    background: #00ffcc;
+}
+
+/* Карточки */
+.game-card {
+    background-color: #252a3d !important;
+    border: none !important;
+    border-radius: 8px !important;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.card-h-orange {
+    background-color: #ff6b35;
+    color: white;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 15px 20px;
+}
+
+.card-h-dark-orange {
+    background-color: #2d3246;
+    color: #ff6b35;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 15px 20px;
+    border-bottom: 2px solid #ff6b35;
+}
+
+.card-h-cyan {
+    background-color: #00ffcc;
+    color: #1a1d29;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 15px 20px;
+}
+
+.card-h-dark-cyan {
+    background-color: #2d3246;
+    color: #00ffcc;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 15px 20px;
+    border-bottom: 2px solid #00ffcc;
+}
+
+.card-h-gold {
+    background-color: #2d3246;
+    color: #ffcc00;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 15px 20px;
+    border-bottom: 2px solid #ffcc00;
+}
+
+.card-body-p {
+    padding: 30px !important;
+}
+
+.desc-text {
+    color: #c0c0c0;
+    line-height: 1.8;
+    font-size: 2rem;
+    margin-bottom: 25px;
+}
+
+.list-style-custom {
+    color: #a0a0a0;
+    display: inline-block;
+    font-size: 2rem;
+    text-align: left;
+}
+
+.highlight-orange {
+    color: #ff6b35;
+}
+
+.highlight-cyan {
+    color: #00ffcc;
+}
+
+.highlight-white {
+    color: #fff;
+}
+
+/* Роли */
+.role-container {
+    background-color: #1a1d29;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.role-pos1 {
+    border-left: 4px solid #ff6b35;
+}
+
+.role-pos2 {
+    border-left: 4px solid #4ecdc4;
+}
+
+.role-pos3 {
+    border-left: 4px solid #ff9f43;
+}
+
+.role-pos4 {
+    border-left: 4px solid #54a0ff;
+}
+
+.role-title {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.role-text {
+    color: #a0a0a0;
+    margin: 0;
+    font-size: 2rem;
+    line-height: 1.8;
+}
+
+/* Ресурсы и ссылки */
+.resource-box {
+    background-color: #1a1d29;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    transition: transform 0.2s;
+    height: 100%;
+}
+
+    .resource-box:hover {
+        transform: translateY(-5px);
+    }
+
+.res-title-teal {
+    color: #4ecdc4;
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.res-title-orange {
+    color: #ff9f43;
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.res-title-blue {
+    color: #54a0ff;
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.res-text {
+    color: #a0a0a0;
+    margin: 0;
+    font-size: 2rem;
+    line-height: 1.8;
+}
+
+/* Нижняя навигация */
+.footer-nav-box {
+    background-color: #252a3d;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-link-card {
+    background-color: #1a1d29;
+    padding: 30px 40px;
+    border-radius: 12px;
+    border: 2px solid #333;
+    transition: all 0.3s ease;
+    min-width: 250px;
+    display: block;
+    text-decoration: none;
+}
+
+    .footer-link-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+.f-card-deadlock:hover {
+    border-color: #ff6b35;
+}
+
+.f-card-about:hover {
+    border-color: #4ecdc4;
+}
+
+/* О нас */
+.pro-card {
+    background-color: #252a3d;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    height: 100%;
+}
+
+.pro-deadlock-border {
+    border-top: 5px solid #00ffcc;
+}
+
+.pro-dota-border {
+    border-top: 5px solid #ff6b35;
+}
+
+.pro-name {
+    color: #fff;
+    font-size: 2.5rem;
+}
+
+.pro-stat-box {
+    text-align: left;
+    font-size: 1.4rem;
+}
