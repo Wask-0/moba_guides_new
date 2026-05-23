@@ -2,13 +2,11 @@ import unittest
 import sys
 import os
 
-# Добавляем корневую директорию проекта в путь поиска, чтобы найти функции из routes.py
 sys.path.insert(0, os.path.abspath('.'))
 
 try:
     from routes import validate_date, validate_phone, validate_author, validate_review_text
 except ImportError:
-    # Если запуск не из корня, пытаемся импортировать напрямую
     pass
 
 class TestValidation(unittest.TestCase):

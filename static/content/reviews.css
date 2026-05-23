@@ -1,67 +1,75 @@
 /* Стили для страницы отзывов */
 
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background-attachment: fixed;
+}
+
 .page-wrapper {
     min-height: 100vh;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: transparent; /* Наследуем фон от body */
     padding-bottom: 50px;
 }
 
 /* Навигация */
-.top-nav-fixed {
+.side-nav-fixed {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.95);
-    padding: 15px 0;
+    top: 20px;
+    right: 20px;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .nav-btn {
-    display: inline-block;
-    margin: 0 15px;
-    padding: 10px 25px;
-    background: linear-gradient(135deg, #00d4ff, #0099cc);
-    color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    font-weight: bold;
+    background: linear-gradient(135deg, #252a3d, #1a1d29);
+    color: #e0e0e0 !important;
+    border: 2px solid #ff6b35;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none !important;
+    font-size: 1.1rem;
+    font-weight: 500;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    min-width: 180px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    display: block;
 }
 
     .nav-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+        transform: translateY(-3px);
+        border-color: #ff9f43;
+        color: #fff !important;
     }
 
     .nav-btn.secondary {
-        background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
-        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        border-color: #4ecdc4;
     }
 
         .nav-btn.secondary:hover {
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+            border-color: #00ffcc;
         }
 
     .nav-btn.tertiary {
-        background: linear-gradient(135deg, #ffa500, #ff8c00);
-        box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+        border-color: #54a0ff;
     }
 
         .nav-btn.tertiary:hover {
-            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.5);
+            border-color: #70c1ff;
         }
 
     .nav-btn.quaternary {
-        background: linear-gradient(135deg, #4ecdc4, #44a08d);
-        box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        border-color: #4ecdc4; /* Бирюзовая */
     }
-
-        .nav-btn.quaternary:hover {
-            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
-        }
 
 /* Заголовки */
 .main-title {
@@ -286,15 +294,3 @@ textarea.form-control {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Кнопка отзывов в навигации */
-.nav-btn.reviews {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    border: 2px solid rgba(102, 126, 234, 0.5);
-}
-
-    .nav-btn.reviews:hover {
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-        transform: translateY(-2px);
-        border-color: rgba(102, 126, 234, 0.8);
-    }

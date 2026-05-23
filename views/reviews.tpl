@@ -11,15 +11,12 @@
 <body>
     <div class="page-wrapper">
         <!-- Навигация -->
-        <div class="top-nav-fixed">
-            <div class="container">
-                <div class="text-center">
-                    <a href="/home" class="nav-btn">Дота</a>
-                    <a href="/deadlock" class="nav-btn secondary">Дедлок</a>
-                    <a href="/about" class="nav-btn tertiary">Об авторах</a>
-                    <a href="/reviews" class="nav-btn quaternary">Отзывы</a>
-                </div>
-            </div>
+        <div class="side-nav-fixed">
+            <a href="/home" class="nav-btn">Дота</a>
+            <a href="/deadlock" class="nav-btn secondary">Дедлок</a>
+            <a href="/about" class="nav-btn tertiary">Об авторах</a>
+            <a href="/reviews" class="nav-btn reviews">Отзывы</a>
+            <a href="/updates" class="nav-btn secondary">Обновления</a>
         </div>
 
         <div class="container">
@@ -34,15 +31,15 @@
                             <div class="review-card">
                                 <div class="d-flex justify-content-between align-items-start flex-wrap">
                                     <div>
-                                        <div class="review-author">👤 {{review['author']}}</div>
-                                        <div class="review-date">📅 {{review['date']}}</div>
+                                        <div class="review-author">👤 {{!review['author']}}</div>
+                                        <div class="review-date">📅 {{!review['date']}}</div>
                                     </div>
                                     %if review.get('phone'):
-                                        <div class="review-phone">📞 {{review['phone']}}</div>
+                                        <div class="review-phone">📞 {{!review['phone']}}</div>
                                     %end
                                 </div>
                                 <div class="review-text">
-                                    {{review['text']}}
+                                    {{!review['text']}}
                                 </div>
                             </div>
                         %end
@@ -67,7 +64,7 @@
                                        class="form-control" 
                                        id="author" 
                                        name="author" 
-                                       value="{{form_data.get('author', '')}}" 
+                                       value="{{!form_data.get('author', '')}}" 
                                        placeholder="Введите ваше имя или ник">
                                 %if 'author' in errors:
                                     <div class="error-message">{{errors['author']}}</div>
@@ -81,7 +78,7 @@
                                           id="text" 
                                           name="text" 
                                           rows="4" 
-                                          placeholder="Напишите ваш отзыв">{{form_data.get('text', '')}}</textarea>
+                                          placeholder="Напишите ваш отзыв">{{!form_data.get('text', '')}}</textarea>
                                 %if 'text' in errors:
                                     <div class="error-message">{{errors['text']}}</div>
                                 %end
@@ -95,7 +92,7 @@
                                            class="form-control" 
                                            id="date" 
                                            name="date" 
-                                           value="{{form_data.get('date', '')}}" 
+                                           value="{{!form_data.get('date', '')}}" 
                                            placeholder="21.05.2026">
                                     %if 'date' in errors:
                                         <div class="error-message">{{errors['date']}}</div>
@@ -108,7 +105,7 @@
                                            class="form-control" 
                                            id="phone" 
                                            name="phone" 
-                                           value="{{form_data.get('phone', '')}}" 
+                                           value="{{!form_data.get('phone', '')}}" 
                                            placeholder="+7 (999) 999-99-99">
                                     %if 'phone' in errors:
                                         <div class="error-message">{{errors['phone']}}</div>

@@ -1,51 +1,256 @@
-.nav-btn.updates {
-    background: linear-gradient(135deg, #11998e, #38ef7d);
-    box-shadow: 0 4px 15px rgba(56, 239, 125, 0.3);
+/* Стили для страницы обновлений — единый стиль с отзывами */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
 }
 
-    .nav-btn.updates:hover {
-        box-shadow: 0 6px 20px rgba(56, 239, 125, 0.5);
-        transform: translateY(-2px);
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background-attachment: fixed;
+}
+
+.page-wrapper {
+    min-height: 100vh;
+    background: transparent; /* Наследуем фон от body */
+    padding-bottom: 50px;
+}
+
+/* ========== НАВИГАЦИЯ (ПРАВЫЙ ВЕРХНИЙ УГОЛ) ========== */
+.side-nav-fixed {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-btn {
+    background: linear-gradient(135deg, #252a3d, #1a1d29);
+    color: #e0e0e0 !important;
+    border: 2px solid #ff6b35;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none !important;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    display: block;
+}
+
+    .nav-btn:hover {
+        transform: translateY(-3px);
+        border-color: #ff9f43;
+        color: #fff !important;
     }
 
-.update-card {
-    background: rgba(30,30,30,0.9);
-    border-left: 4px solid #38ef7d;
-}
+    .nav-btn.secondary {
+        border-color: #4ecdc4;
+    }
 
-.update-img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 8px;
-}
+        .nav-btn.secondary:hover {
+            border-color: #00ffcc;
+        }
 
-.update-date {
-    color: #38ef7d;
+    .nav-btn.tertiary {
+        border-color: #54a0ff;
+    }
+
+        .nav-btn.tertiary:hover {
+            border-color: #70c1ff;
+        }
+
+    .nav-btn.quaternary {
+        border-color: #4ecdc4; /* Бирюзовая */
+    }
+
+/* ========== ОСТАЛЬНЫЕ СТИЛИ (БЕЗ ИЗМЕНЕНИЙ) ========== */
+
+/* Заголовок */
+.main-title {
+    margin-top: 100px;
+    color: #fff;
+    font-size: 3em;
     font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 0.9em;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
 }
 
-.update-text {
+/* Карточка */
+.review-card {
+    background: rgba(30, 30, 30, 0.9);
+    border-left: 4px solid #00d4ff;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+    .review-card:hover {
+        transform: translateX(5px);
+        box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+    }
+
+.review-date {
+    color: #00d4ff;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.review-text {
     color: #ddd;
     line-height: 1.6;
-    margin: 0;
+    font-size: 1.05em;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
 }
 
-.form-control[type="file"] {
-    background: rgba(20,20,20,0.9);
-    border: 2px dashed #444;
-    color: #fff;
-    padding: 10px;
-    cursor: pointer;
+/* Форма */
+.form-section {
+    background: rgba(40, 40, 40, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 212, 255, 0.2);
 }
 
-    .form-control[type="file"]::file-selector-button {
-        background: #38ef7d;
-        border: none;
-        color: #000;
-        padding: 5px 10px;
-        border-radius: 4px;
-        cursor: pointer;
+    .form-section h2 {
+        color: #00d4ff;
+        font-weight: bold;
+        margin-bottom: 30px;
     }
+
+/* Поля формы */
+.form-label {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    background: rgba(20, 20, 20, 0.9);
+    border: 2px solid #444;
+    color: #fff;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+    .form-control:focus {
+        background: rgba(30, 30, 30, 0.95);
+        border-color: #00d4ff;
+        color: #fff;
+        box-shadow: 0 0 0 0.25rem rgba(0, 212, 255, 0.25);
+        outline: none;
+    }
+
+    .form-control::placeholder {
+        color: #888;
+    }
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Ошибки */
+.error-message {
+    color: #ff6b6b;
+    font-size: 0.9em;
+    margin-top: 8px;
+    font-weight: 600;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* Кнопка отправки */
+.btn-submit {
+    background: linear-gradient(135deg, #00d4ff, #0099cc);
+    border: none;
+    color: white;
+    padding: 15px 50px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+    .btn-submit:hover {
+        background: linear-gradient(135deg, #0099cc, #0077aa);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 212, 255, 0.6);
+    }
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+    font-size: 1.2em;
+    background: rgba(30, 30, 30, 0.5);
+    border-radius: 10px;
+    border: 2px dashed #444;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .side-nav-fixed {
+        position: relative;
+        top: 0;
+        right: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 15px;
+        gap: 8px;
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    .nav-btn {
+        min-width: auto;
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+
+    .main-title {
+        font-size: 2em;
+        margin-top: 120px;
+    }
+
+    .form-section {
+        padding: 25px;
+    }
+
+    .review-card {
+        padding: 20px;
+    }
+}
