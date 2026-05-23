@@ -13,6 +13,7 @@
             <a href="/" class="nav-btn">Дота</a>
             <a href="/deadlock" class="nav-btn secondary">Дедлок</a>
             <a href="/about" class="nav-btn tertiary">Об авторах</a>
+            <a href="/reviews" class="nav-btn reviews">Отзывы</a>
         </div>
 
         <div class="container pt-4">
