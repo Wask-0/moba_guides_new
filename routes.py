@@ -8,7 +8,31 @@ import os
 import re
 import html
 from datetime import datetime
-from bottle import route, view, static_file, request, redirect
+from bottle import route, view, static_file, request, response
+
+def _fix_mojibake(value: str) -> str:
+    """
+    Fix common UTF-8-as-Windows-1252 mojibake ("ÐŸÑ€Ð¸Ð²ÐµÑ‚" -> "Привет").
+    This can happen when POSTed form bytes are decoded using cp1252/latin-1.
+    """
+    if not value or not isinstance(value, str):
+        return value
+
+    # Heuristic markers typical for this mojibake.
+    if "Ð" not in value and "Ñ" not in value:
+        return value
+
+    # First try latin-1 (byte-preserving), then cp1252 for some environments.
+    for enc in ("latin-1", "cp1252"):
+        try:
+            fixed = value.encode(enc, errors="strict").decode("utf-8", errors="strict")
+        except Exception:
+            continue
+
+        if re.search(r"[А-Яа-яЁё]", fixed):
+            return fixed
+
+    return value
 
 # ========== КОНФИГУРАЦИЯ ==========
 DATA_FILE = 'reviews.json'
@@ -33,6 +57,8 @@ def save_reviews(reviews):
 
 def validate_date(date_str):
     """Проверка корректности даты в формате ДД.ММ.ГГГГ"""
+    if not isinstance(date_str, str) or not re.match(r'^\d{2}\.\d{2}\.\d{4}$', date_str):
+        return False
     try:
         datetime.strptime(date_str, '%d.%m.%Y')
         return True
@@ -47,7 +73,7 @@ def validate_phone(phone):
     return bool(re.match(pattern, phone))
 
 def validate_author(author):
-    """Проверка имени автора: только латиница, цифры, спецсимволы"""
+    """Проверка имени автора: кириллица/латиница, цифры и базовые символы"""
     if not author:
         return False, "Укажите автора"
     if len(author) < 2:
@@ -57,10 +83,10 @@ def validate_author(author):
     if re.search(r'<[^>]+>', author):
         return False, "Имя не должно содержать HTML-теги"
     
-    # Только латиница, цифры, пробелы, дефис, апостроф, подчеркивание
+    # Кириллица/латиница, цифры, пробелы, дефис, апостроф, подчеркивание
     pattern = r'^[a-zA-Zа-яА-ЯёЁ0-9\s\-\'_]+$'
     if not re.match(pattern, author):
-        return False, "Имя должно содержать только латинские буквы и цифры"
+        return False, "Имя может содержать только буквы, цифры, пробелы и - ' _"
     
     # Защита от спама (повторяющиеся символы)
     if re.search(r'(.)\1{3,}', author):
@@ -69,7 +95,7 @@ def validate_author(author):
     return True, ""
 
 def validate_review_text(text):
-    """Проверка текста отзыва: только латиница, без спама"""
+    """Проверка текста отзыва: кириллица/латиница, без спама"""
     if not text:
         return False, "Введите текст отзыва"
     if len(text) < 10:
@@ -82,16 +108,12 @@ def validate_review_text(text):
         return False, "Текст содержит запрещенный контент"
     
     
-    # Должна быть хотя бы одна латинская буква
-    if not re.search(r'[a-zA-Z]', text):
-        return False, "Текст должен содержать латинские буквы"
-    
     # Защита от спама
     if re.search(r'(.)\1{10,}', text):
         return False, "Текст содержит слишком много повторяющихся символов"
     
     # Проверка CAPS LOCK
-    letters = re.findall(r'[a-zA-Z]', text)
+    letters = [c for c in text if c.isalpha()]
     if letters:
         uppercase = sum(1 for c in letters if c.isupper())
         if uppercase / len(letters) > 0.7:
@@ -191,11 +213,14 @@ def reviews():
     form_data = {}
     
     if request.method == 'POST':
+        # Явно фиксируем UTF-8, чтобы кириллица из формы не превращалась в "кракозябры"
+        # в окружениях, где кодировка по умолчанию отличается от UTF-8 (часто на Windows).
+        request.charset = 'utf-8'
         form_data = {
-            'author': request.forms.get('author', '').strip(),
-            'text': request.forms.get('text', '').strip(),
-            'date': request.forms.get('date', '').strip(),
-            'phone': request.forms.get('phone', '').strip()
+            'author': _fix_mojibake(request.forms.get('author', '')).strip(),
+            'text': _fix_mojibake(request.forms.get('text', '')).strip(),
+            'date': _fix_mojibake(request.forms.get('date', '')).strip(),
+            'phone': _fix_mojibake(request.forms.get('phone', '')).strip()
         }
         
         # Валидация
@@ -227,7 +252,11 @@ def reviews():
             reviews_list.append(cleaned_data)
             reviews_list.sort(key=lambda x: datetime.strptime(x['date'], '%d.%m.%Y'), reverse=True)
             save_reviews(reviews_list)
-            redirect('/reviews')
+            # Не используем bottle.redirect(), т.к. он реализован через raise HTTPResponse
+            # и в некоторых отладчиках это выглядит как "падение приложения".
+            response.status = 303
+            response.set_header('Location', '/reviews')
+            return ''
     
     reviews_list = load_reviews()
     reviews_list.sort(key=lambda x: datetime.strptime(x['date'], '%d.%m.%Y'), reverse=True)

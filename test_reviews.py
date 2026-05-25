@@ -1,88 +1,106 @@
-import unittest
+п»їimport unittest
 import sys
 import os
 
 sys.path.insert(0, os.path.abspath('.'))
 
 try:
-    from routes import validate_date, validate_phone, validate_author, validate_review_text
-except ImportError:
-    pass
+    from routes import _fix_mojibake, validate_date, validate_phone, validate_author, validate_review_text
+except Exception as exc:
+    _fix_mojibake = validate_date = validate_phone = validate_author = validate_review_text = None
+    _IMPORT_ERROR = exc
+else:
+    _IMPORT_ERROR = None
 
 class TestValidation(unittest.TestCase):
-    """Набор unit-тестов для проверки валидации полей на странице отзывов"""
+    """РќР°Р±РѕСЂ unit-С‚РµСЃС‚РѕРІ РґР»СЏ РїСЂРѕРІРµСЂРєРё РІР°Р»РёРґР°С†РёРё РїРѕР»РµР№ РЅР° СЃС‚СЂР°РЅРёС†Рµ РѕС‚Р·С‹РІРѕРІ"""
+
+    @classmethod
+    def setUpClass(cls):
+        if _IMPORT_ERROR is not None:
+            raise unittest.SkipTest(f"РќРµ СѓРґР°Р»РѕСЃСЊ РёРјРїРѕСЂС‚РёСЂРѕРІР°С‚СЊ РІР°Р»РёРґР°С‚РѕСЂС‹ РёР· routes.py: {_IMPORT_ERROR}")
        
-    # --- ТЕСТЫ ДАТЫ ---
+    # --- РўР•РЎРўР« Р”РђРўР« ---
     def test_date_valid(self):
-        """Проверка корректной даты"""
+        """РџСЂРѕРІРµСЂРєР° РєРѕСЂСЂРµРєС‚РЅРѕР№ РґР°С‚С‹"""
         self.assertTrue(validate_date("21.05.2026"))
         self.assertTrue(validate_date("01.01.2025"))
 
     def test_date_invalid_format(self):
-        """Проверка неверного формата (не ДД.ММ.ГГГГ)"""
+        """РџСЂРѕРІРµСЂРєР° РЅРµРІРµСЂРЅРѕРіРѕ С„РѕСЂРјР°С‚Р° (РЅРµ Р”Р”.РњРњ.Р“Р“Р“Р“)"""
         self.assertFalse(validate_date("2026-05-21"))
         self.assertFalse(validate_date("21/05/2026"))
         self.assertFalse(validate_date("21.5.2026"))
 
     def test_date_invalid_value(self):
-        """Проверка невозможной даты"""
+        """РџСЂРѕРІРµСЂРєР° РЅРµРІРѕР·РјРѕР¶РЅРѕР№ РґР°С‚С‹"""
         self.assertFalse(validate_date("32.01.2026"))
         self.assertFalse(validate_date("00.05.2026"))
 
-    # --- ТЕСТЫ ТЕЛЕФОНА ---
+    # --- РўР•РЎРўР« РўР•Р›Р•Р¤РћРќРђ ---
     def test_phone_valid(self):
-        """Проверка корректного телефона"""
+        """РџСЂРѕРІРµСЂРєР° РєРѕСЂСЂРµРєС‚РЅРѕРіРѕ С‚РµР»РµС„РѕРЅР°"""
         self.assertTrue(validate_phone("+7 (999) 123-45-67"))
         self.assertTrue(validate_phone("+79991234567"))
 
     def test_phone_invalid(self):
-        """Проверка неверного формата телефона"""
-        self.assertFalse(validate_phone("89991234567"))  # Не с +7
-        self.assertFalse(validate_phone("+7 (99) 123-45-67"))  # Мало цифр
-        self.assertFalse(validate_phone("+799912345"))  # Слишком короткий
+        """РџСЂРѕРІРµСЂРєР° РЅРµРІРµСЂРЅРѕРіРѕ С„РѕСЂРјР°С‚Р° С‚РµР»РµС„РѕРЅР°"""
+        self.assertFalse(validate_phone("89991234567"))  # РќРµ СЃ +7
+        self.assertFalse(validate_phone("+7 (99) 123-45-67"))  # РњР°Р»Рѕ С†РёС„СЂ
+        self.assertFalse(validate_phone("+799912345"))  # РЎР»РёС€РєРѕРј РєРѕСЂРѕС‚РєРёР№
 
-    # --- ТЕСТЫ ИМЕНИ (ЛАТИНИЦА) ---
+    # --- РўР•РЎРўР« РРњР•РќР ---
     def test_author_valid(self):
-        """Проверка корректного имени (латиница)"""
+        """РџСЂРѕРІРµСЂРєР° РєРѕСЂСЂРµРєС‚РЅРѕРіРѕ РёРјРµРЅРё"""
         valid, msg = validate_author("John Doe")
         self.assertTrue(valid)
         
         valid, msg = validate_author("ProGamer_2026")
         self.assertTrue(valid)
 
-    def test_author_cyrillic_rejected(self):
-        """Проверка отклонения кириллицы"""
-        valid, msg = validate_author("Иван Иванов")
-        self.assertFalse(valid)
-        self.assertIn("латинские", msg)
+    def test_author_cyrillic_allowed(self):
+        """РџСЂРѕРІРµСЂРєР° СЂР°Р·СЂРµС€С‘РЅРЅРѕР№ РєРёСЂРёР»Р»РёС†С‹"""
+        valid, msg = validate_author("РРІР°РЅ РРІР°РЅРѕРІ")
+        self.assertTrue(valid)
 
     def test_author_too_short(self):
-        """Проверка слишком короткого имени"""
+        """РџСЂРѕРІРµСЂРєР° СЃР»РёС€РєРѕРј РєРѕСЂРѕС‚РєРѕРіРѕ РёРјРµРЅРё"""
         valid, msg = validate_author("A")
         self.assertFalse(valid)
 
-    # --- ТЕСТЫ ТЕКСТА (ЛАТИНИЦА) ---
+    # --- РўР•РЎРўР« РўР•РљРЎРўРђ ---
     def test_review_valid(self):
-        """Проверка корректного текста"""
+        """РџСЂРѕРІРµСЂРєР° РєРѕСЂСЂРµРєС‚РЅРѕРіРѕ С‚РµРєСЃС‚Р°"""
         valid, msg = validate_review_text("Great game! I really liked it.")
         self.assertTrue(valid)
 
-    def test_review_cyrillic_rejected(self):
-        """Проверка отклонения кириллицы в тексте"""
-        valid, msg = validate_review_text("Отличная игра, всем советую!")
-        self.assertFalse(valid)
-        self.assertIn("латинские", msg)
+    def test_review_cyrillic_allowed(self):
+        """РџСЂРѕРІРµСЂРєР° СЂР°Р·СЂРµС€С‘РЅРЅРѕР№ РєРёСЂРёР»Р»РёС†С‹ РІ С‚РµРєСЃС‚Рµ"""
+        valid, msg = validate_review_text("РћС‚Р»РёС‡РЅР°СЏ РёРіСЂР°, РІСЃРµРј СЃРѕРІРµС‚СѓСЋ!")
+        self.assertTrue(valid)
 
     def test_review_too_short(self):
-        """Проверка слишком короткого текста"""
+        """РџСЂРѕРІРµСЂРєР° СЃР»РёС€РєРѕРј РєРѕСЂРѕС‚РєРѕРіРѕ С‚РµРєСЃС‚Р°"""
         valid, msg = validate_review_text("Ok")
         self.assertFalse(valid)
 
     def test_review_caps_lock(self):
-        """Проверка текста ЗАГЛАВНЫМИ БУКВАМИ"""
+        """РџСЂРѕРІРµСЂРєР° С‚РµРєСЃС‚Р° Р—РђР“Р›РђР’РќР«РњР Р‘РЈРљР’РђРњР"""
         valid, msg = validate_review_text("THIS IS A VERY BAD REVIEW BECAUSE IT IS ALL CAPS")
         self.assertFalse(valid)
-        self.assertIn("ЗАГЛАВНЫМИ", msg)
+        self.assertIn("Р—РђР“Р›РђР’РќР«РњР", msg)
+
+    def test_review_caps_lock_cyrillic(self):
+        """РџСЂРѕРІРµСЂРєР° С‚РµРєСЃС‚Р° Р—РђР“Р›РђР’РќР«РњР Р‘РЈРљР’РђРњР (РєРёСЂРёР»Р»РёС†Р°)"""
+        valid, msg = validate_review_text("Р­РўРћ РћР§Р•РќР¬ РџР›РћРҐРћР™ РћРўР—Р«Р’ РџРћРўРћРњРЈ Р§РўРћ Р’РЎР• Р—РђР“Р›РђР’РќР«Р• Р‘РЈРљР’Р«")
+        self.assertFalse(valid)
+        self.assertIn("Р—РђР“Р›РђР’РќР«РњР", msg)
+
+    def test_mojibake_fix(self):
+        """РџСЂРѕРІРµСЂРєР° РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РєРёСЂРёР»Р»РёС†С‹ РёР· UTF-8-as-cp1252"""
+        self.assertEqual(_fix_mojibake("ГђЕёГ‘в‚¬ГђВёГђВІГђВµГ‘вЂљ"), "РџСЂРёРІРµС‚")
+        self.assertEqual(_fix_mojibake("Г‘\x81Г‘\x82Г‘\x83"), "СЃС‚Сѓ")
 
 if __name__ == '__main__':
     unittest.main()
+

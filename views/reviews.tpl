@@ -56,7 +56,7 @@
                 <div class="col-md-10">
                     <div class="form-section">
                         <h2 class="text-center mb-4">Добавить отзыв</h2>
-                        <form method="POST" action="/reviews">
+                        <form method="POST" action="/reviews" accept-charset="utf-8">
                             <!-- Поле Автор -->
                             <div class="mb-3">
                                 <label for="author" class="form-label">Автор (Имя/Ник) *</label>
