@@ -11,7 +11,7 @@ except Exception as exc:
     _IMPORT_ERROR = exc
 else:
     _IMPORT_ERROR = None
-
+    # тест
 class TestValidation(unittest.TestCase):
     """Набор unit-тестов для проверки валидации полей на странице отзывов"""
 
