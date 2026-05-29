@@ -1,1 +1,12 @@
-[ ]
+[
+  {
+    "date": "29.05.2026",
+    "text": "Добавлен новый герой в игру",
+    "image": "/static/images/updates/images.jpg"
+  },
+  {
+    "date": "28.05.2026",
+    "text": "Новое обновление в игре!",
+    "image": "/static/images/updates/1.png"
+  }
+]
